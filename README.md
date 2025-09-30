@@ -125,19 +125,43 @@ curl -X DELETE http://localhost:8080/api/v1/users/1
 
 ## Practice Exercises
 
-This project includes two practice instruction files:
+This project includes comprehensive practice materials for learning GitHub Copilot:
 
-1. **Copilot_Practice_Instructions.md** - Learn to use GitHub Copilot's various features:
+### Getting Started (Beginner)
+
+1. **[Copilot_Practice_Instructions.md](Copilot_Practice_Instructions.md)** - Learn GitHub Copilot basics:
    - Inline code completion
    - Ask/Edit mode
    - Copilot CLI
    - Agent mode
 
-2. **Copilot_TDD_Practice_Instructions.md** - Practice Test-Driven Development:
+2. **[Copilot_TDD_Practice_Instructions.md](Copilot_TDD_Practice_Instructions.md)** - Practice Test-Driven Development:
    - Using Testing custom chat mode
    - Using TDD custom chat mode
    - Red-Green-Refactor cycle
    - Test coverage analysis
+
+### Advanced Practice (Intermediate to Advanced)
+
+3. **[Advanced Practice Instructions](advanced-practice/README.md)** - Comprehensive advanced exercises:
+   - 📝 **10 Modules** covering real-world scenarios
+   - 🌱 **GitHub Spec-Kit** introduction for structured development
+   - 🎓 **Capstone Projects** for advanced challenges
+   - 💡 **Best Practices** and professional patterns
+
+**Topics Include:**
+- CRUD operations & API design enhancements
+- Input validation & error handling
+- Comprehensive testing strategies (unit, integration, property-based)
+- Repository pattern & database migrations
+- Configuration management & secrets
+- Authentication & authorization (API keys, JWT)
+- Observability (logging, metrics, tracing)
+- Documentation & developer experience
+- CI/CD pipelines & automation
+- Architecture & scalability patterns
+
+👉 **[Start with the Advanced Practice Guide →](advanced-practice/README.md)**
 
 ## Comparison with Go Demo
 
