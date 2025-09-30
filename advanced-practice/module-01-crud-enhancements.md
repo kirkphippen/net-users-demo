@@ -175,6 +175,125 @@ Log how many users were created in the bulk operation.
 
 ---
 
+## Code Review Before Committing
+
+Before committing your changes, it's essential to perform a thorough local code review. This practice helps catch issues early and ensures code quality.
+
+### VS Code Built-in Tools
+
+**1. Review Changes in Source Control View:**
+- Open the Source Control view (⌃⇧G or Ctrl+Shift+G)
+- Review each modified file in the "Changes" section
+- Click on files to see inline diffs with the previous version
+- Look for:
+  - Unintended changes or debug code
+  - Formatting inconsistencies
+  - Missing documentation
+  - TODOs or commented-out code
+
+**2. Use the Diff Editor:**
+- Right-click a modified file in Source Control view
+- Select "Open Changes" to see side-by-side diff
+- Review each change carefully:
+  - Does it serve the intended purpose?
+  - Are there any security concerns?
+  - Is the code readable and maintainable?
+
+**3. Check for Errors and Warnings:**
+- Open the Problems panel (⌘⇧M or Ctrl+Shift+M)
+- Resolve all errors before committing
+- Address warnings where appropriate
+- Run the build: `dotnet build`
+
+### Using GitHub Copilot for Code Review
+
+**Ask Copilot to Review Your Changes:**
+
+```
+Review my recent changes for potential issues:
+- Check for security vulnerabilities
+- Identify code quality issues
+- Suggest improvements for readability
+- Verify error handling is comprehensive
+```
+
+**Sample Prompts for Specific Reviews:**
+
+```
+Review the UsersController for REST API best practices
+```
+
+```
+Check if my new endpoints follow the existing code style and conventions
+```
+
+```
+Analyze the error handling in my delete endpoint implementation
+```
+
+### Testing Before Commit
+
+**Run the Application:**
+```bash
+cd net-users-api
+dotnet run
+```
+
+**Test Your Endpoints:**
+- Use the `.http` files in the project
+- Test happy paths and error scenarios
+- Verify response codes and bodies match expectations
+- Check logs for appropriate messages
+
+**Run Tests (if available):**
+```bash
+dotnet test
+```
+
+### Code Review Checklist
+
+Use this checklist before committing:
+
+- [ ] **Functionality**: Does the code work as intended?
+- [ ] **Tests**: Are there tests? Do they pass?
+- [ ] **Error Handling**: Are edge cases handled?
+- [ ] **Logging**: Are operations logged appropriately?
+- [ ] **Documentation**: Are XML comments added to public APIs?
+- [ ] **Code Style**: Does it follow project conventions?
+- [ ] **Security**: Are there any security concerns?
+- [ ] **Performance**: Are there obvious performance issues?
+- [ ] **Dependencies**: Are new dependencies necessary and appropriate?
+- [ ] **Configuration**: Are hardcoded values moved to configuration?
+- [ ] **Cleanup**: Is debug code, console logs, or commented code removed?
+
+### Committing Best Practices
+
+**Write Clear Commit Messages:**
+```bash
+git add .
+git commit -m "feat: implement DELETE endpoint for users
+
+- Add DELETE /api/v1/users/{id} endpoint
+- Return 204 on success, 404 when not found
+- Add logging for delete operations
+- Include XML documentation"
+```
+
+**Use Conventional Commits:**
+- `feat:` for new features
+- `fix:` for bug fixes
+- `docs:` for documentation changes
+- `refactor:` for code refactoring
+- `test:` for adding tests
+- `chore:` for maintenance tasks
+
+**Atomic Commits:**
+- Commit related changes together
+- One logical change per commit
+- Makes it easier to review and revert if needed
+
+---
+
 ## Summary
 
 Congratulations! 🎉 You've completed Module 1. You should now have:

@@ -31,6 +31,65 @@ This guide provides advanced exercises for practicing GitHub Copilot features wi
 
 ## Getting Started
 
+### Fork and Clone the Repository
+
+**Step 1: Fork the Repository**
+1. Navigate to the repository on GitHub: `https://github.com/frye/net-users-demo`
+2. Click the **Fork** button in the top-right corner
+3. Select your GitHub account as the destination
+4. Wait for GitHub to create your fork (this takes a few seconds)
+5. You now have your own copy at `https://github.com/YOUR-USERNAME/net-users-demo`
+
+**Step 2: Clone Your Fork**
+
+Open your terminal and run:
+
+```bash
+# Clone your forked repository
+git clone https://github.com/YOUR-USERNAME/net-users-demo.git
+
+# Navigate into the project directory
+cd net-users-demo
+```
+
+**Step 3: Set Up Upstream Remote (Optional but Recommended)**
+
+This allows you to pull updates from the original repository:
+
+```bash
+# Add the original repository as upstream
+git remote add upstream https://github.com/frye/net-users-demo.git
+
+# Verify your remotes
+git remote -v
+```
+
+You should see:
+```
+origin    https://github.com/YOUR-USERNAME/net-users-demo.git (fetch)
+origin    https://github.com/YOUR-USERNAME/net-users-demo.git (push)
+upstream  https://github.com/frye/net-users-demo.git (fetch)
+upstream  https://github.com/frye/net-users-demo.git (push)
+```
+
+**Step 4: Sync with Upstream (When Needed)**
+
+To get the latest changes from the original repository:
+
+```bash
+# Fetch changes from upstream
+git fetch upstream
+
+# Merge upstream changes into your main branch
+git checkout main
+git merge upstream/main
+
+# Push updates to your fork
+git push origin main
+```
+
+### Prerequisites
+
 Before beginning these exercises:
 
 1. **Complete the basic practice instructions** in `Copilot_Practice_Instructions.md`
