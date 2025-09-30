@@ -6,41 +6,48 @@ Follow these tasks to practice Test-Driven Development (TDD) using GitHub Copilo
 
 ---
 
-## ✅ Task 1: Implement Unit Tests Using Testing Custom Chat Mode
+## ✅ Task 1: Implement Unit Tests Using Agent Mode
 
-**Goal:** Create comprehensive unit tests for the existing User Profile API endpoints using Copilot's Testing custom chat mode.
+**Goal:** Create comprehensive unit tests for the existing User Profile API endpoints using Copilot's Agent mode.
 
 ### Step-by-Step Instructions:
 
-1. **Open Copilot Chat Panel**
+1. **Open Copilot Agent Mode**
    - Open the Copilot Chat panel in VS Code (Ctrl+Shift+I or Cmd+Shift+I)
-   - Click on the chat mode selector at the top of the chat panel
+   - Click on the Agent button in the sidebar (or use the sparkle icon ✨)
+   - Agent mode provides autonomous, multi-step task execution
 
-2. **Select Testing Custom Chat Mode**
-   - Choose the "Testing" custom chat mode from the dropdown
-   - This mode is optimized for generating test code and testing strategies
-
-3. **Generate Unit Tests with Simple Prompt**
-   - Use this prompt in the Testing chat mode:
+2. **Generate and Run Unit Tests**
+   - Use this simple prompt in Agent mode:
 
    ```
-   Generate and run unit tests for me
+   Create and run unit tests for me
    ```
 
-4. **Review and Accept Generated Tests**
-   - Copilot will generate a comprehensive test file using xUnit
-   - Review the generated code for completeness
-   - Accept the suggested test file creation
+   - Agent will automatically:
+     - Analyze the existing codebase
+     - Create a test project structure (net-users-api.Tests)
+     - Generate comprehensive xUnit test files
+     - Add necessary NuGet packages (xUnit, Moq, etc.)
+     - Run the tests and report results
 
-5. **Run the Tests**
-   - Open the integrated terminal
-   - Navigate to the project root
-   - Run the tests with: `dotnet test`
-   - Verify all tests pass
+3. **Review the Generated Tests**
+   - Agent will create test files in the `net-users-api.Tests` project
+   - Review the generated `UsersControllerTests.cs` for completeness
+   - Verify tests cover all existing endpoints:
+     - GetUsers (GET /api/v1/users)
+     - GetUser by ID (GET /api/v1/users/{id})
+     - CreateUser (POST /api/v1/users)
+     - UpdateUser (PUT /api/v1/users/{id})
 
-6. **Analyze Test Coverage**
+4. **Verify Test Results**
+   - Agent will automatically run `dotnet test` and show results
+   - All tests for existing functionality should pass ✅
+   - Tests for DeleteUser will fail ❌ (expected - not yet implemented)
+
+5. **Analyze Test Coverage (Optional)**
    - Run tests with coverage: `dotnet test --collect:"XPlat Code Coverage"`
-   - Aim for >80% test coverage
+   - Aim for >80% test coverage on implemented features
 
 ---
 
@@ -127,14 +134,16 @@ Through this exercise, you've practiced:
 - **Red-Green-Refactor Cycle**: Writing failing tests first, implementing minimal code to pass, then refactoring
 - **Test-First Development**: Defining behavior through tests before implementation
 - **Incremental Development**: Building functionality step by step with immediate feedback
-- **Custom Chat Modes**: Leveraging Copilot's specialized TDD and Testing modes for optimal code generation
+- **Agent Mode**: Leveraging Copilot's autonomous Agent mode for comprehensive test generation
+- **TDD Custom Chat Mode**: Using specialized TDD mode for test-driven feature development
 
 ---
 
 ## 🎉 Completion
 
-You've successfully practiced Test-Driven Development using GitHub Copilot's custom chat modes! You now have:
-- Comprehensive unit tests for your C# REST API
-- A fully implemented delete functionality following TDD principles
-- Experience with Copilot's Testing and TDD chat modes
+You've successfully practiced Test-Driven Development using GitHub Copilot's Agent and TDD modes! You now have:
+- Comprehensive unit tests for your C# REST API (created via Agent mode)
+- A fully implemented delete functionality following TDD principles (via TDD mode)
+- Experience with Copilot's Agent mode for autonomous task execution
+- Experience with Copilot's TDD custom chat mode for test-driven development
 - A robust testing foundation for future development
