@@ -9,7 +9,7 @@ public class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
 
-    // Sample user data
+    // Sample user data. Id, FullName, Emoji
     private static List<UserProfile> _users = new()
     {
         new UserProfile { Id = "1", FullName = "John Doe", Emoji = "😀" },
