@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using NetUsersApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,10 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
+
+// Add global exception handling middleware first in the pipeline
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

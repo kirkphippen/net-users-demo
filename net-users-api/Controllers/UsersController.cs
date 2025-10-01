@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NetUsersApi.Models;
+using NetUsersApi.Exceptions;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace NetUsersApi.Controllers;
 
@@ -14,7 +16,10 @@ public class UsersController : ControllerBase
     {
         new UserProfile { Id = "1", FullName = "John Doe", Emoji = "😀" },
         new UserProfile { Id = "2", FullName = "Jane Smith", Emoji = "🚀" },
-        new UserProfile { Id = "3", FullName = "Robert Johnson", Emoji = "🎸" }
+        new UserProfile { Id = "3", FullName = "Robert Johnson", Emoji = "🎸" },
+        new UserProfile { Id = "4", FullName = "Mario", Emoji = "🍄" },
+        new UserProfile { Id = "5", FullName = "Luigi", Emoji = "👨‍🌾" },
+        new UserProfile { Id = "6", FullName = "Princess Peach", Emoji = "👸" }
     };
 
     public UsersController(ILogger<UsersController> logger)
@@ -45,7 +50,7 @@ public class UsersController : ControllerBase
         
         if (user == null)
         {
-            return NotFound(new { error = "User not found" });
+            throw new ResourceNotFoundException("User", id);
         }
         
         return Ok(user);
@@ -61,7 +66,13 @@ public class UsersController : ControllerBase
     {
         if (newUser == null)
         {
-            return BadRequest(new { error = "Invalid user data" });
+            throw new ValidationException("User data is required");
+        }
+
+        // Check for duplicate ID
+        if (_users.Any(u => u.Id == newUser.Id))
+        {
+            throw new BusinessRuleException("DUPLICATE_USER_ID", $"User with ID '{newUser.Id}' already exists");
         }
 
         // For simplicity, we're just appending to the list
@@ -82,14 +93,14 @@ public class UsersController : ControllerBase
     {
         if (updatedUser == null)
         {
-            return BadRequest(new { error = "Invalid user data" });
+            throw new ValidationException("User data is required");
         }
 
         var index = _users.FindIndex(u => u.Id == id);
         
         if (index == -1)
         {
-            return NotFound(new { error = "User not found" });
+            throw new ResourceNotFoundException("User", id);
         }
         
         // Ensure ID doesn't change
@@ -100,15 +111,75 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Delete a user by ID TODO
+    /// Partially update an existing user
+    /// </summary>
+    /// <param name="id">User ID</param>
+    /// <param name="patchData">JSON object with optional FullName and/or Emoji</param>
+    /// <returns>Updated user profile or 404/400</returns>
+    [HttpPatch("{id}")]
+    public ActionResult<UserProfile> PatchUser(string id, [FromBody] Dictionary<string, object>? patchData)
+    {
+        if (patchData == null || patchData.Count == 0)
+        {
+            throw new ValidationException("No data provided for update");
+        }
+
+        var user = _users.FirstOrDefault(u => u.Id == id);
+        if (user == null)
+        {
+            throw new ResourceNotFoundException("User", id);
+        }
+
+        // Only allow FullName and Emoji to be updated
+        bool updated = false;
+        if (patchData.ContainsKey("Id"))
+        {
+            throw new ValidationException("Id cannot be updated");
+        }
+        if (patchData.ContainsKey("FullName"))
+        {
+            var fullNameObj = patchData["FullName"];
+            if (fullNameObj == null || string.IsNullOrWhiteSpace(fullNameObj.ToString()))
+                throw new ValidationException("FullName cannot be empty");
+            user.FullName = fullNameObj.ToString()!;
+            updated = true;
+        }
+        if (patchData.ContainsKey("Emoji"))
+        {
+            var emojiObj = patchData["Emoji"];
+            if (emojiObj == null || string.IsNullOrWhiteSpace(emojiObj.ToString()))
+                throw new ValidationException("Emoji cannot be empty");
+            user.Emoji = emojiObj.ToString()!;
+            updated = true;
+        }
+        if (!updated)
+        {
+            throw new ValidationException("No valid fields provided for update");
+        }
+
+        return Ok(user);
+    }
+
+    /// <summary>
+    /// Delete a user by ID
     /// </summary>
     /// <param name="id">User ID</param>
     /// <returns>No content or 404 if not found</returns>
     [HttpDelete("{id}")]
     public IActionResult DeleteUser(string id)
     {
-        // Implement delete functionality here using Copilot Ask or Edit mode
-        throw new NotImplementedException("DeleteUser functionality not yet implemented");
+        _logger.LogInformation("DELETE /api/v1/users/{UserId} endpoint called", id);
+
+        var user = _users.FirstOrDefault(u => u.Id == id);
+        if (user == null)
+        {
+            _logger.LogWarning("User with id: {UserId} not found for deletion", id);
+            throw new ResourceNotFoundException("User", id);
+        }
+
+        _users.Remove(user);
+        _logger.LogInformation("User with id: {UserId} deleted successfully", id);
+        return NoContent();
     }
 
     /// <summary>
